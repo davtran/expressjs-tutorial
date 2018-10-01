@@ -22,7 +22,13 @@ AuthorSchema
 AuthorSchema
 .virtual('lifespan')
 .get(function () {
- return (this.date_of_death.getYear() - this.date_of_birth.getYear()).toString();
+  var formattedBirthDate = this.date_of_birth ? moment(this.date_of_birth).format('YYYY') : '';
+  var formattedDeathDate = this.date_of_death ? moment(this.date_of_death).format('YYYY') : moment().format('YYYY')
+  if (formattedBirthDate !== '') {
+    return (formattedDeathDate - formattedBirthDate).toString() + ' years old';
+  } else {
+    return '-'
+  }
 });
 
 AuthorSchema
